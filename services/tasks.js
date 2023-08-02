@@ -18,7 +18,7 @@ const tasksGet = async (req = request, res = response) => {
 
 const tasksPost = async (req = request, res = response) => {
 
-    const body = req.body;
+    const { _id, __v, ...body } = req.body;
     const task = new Task(body);
 
     await task.save();
@@ -29,7 +29,32 @@ const tasksPost = async (req = request, res = response) => {
     });
 }
 
+const tasksPut = async (req = request, res = response) => {
+
+    const { id } = req.params;
+    const { __v, _id, ...body } = req.body;
+
+    const task = await Task.findByIdAndUpdate(id, body, { new: true });
+
+    res.json({
+        task,
+    });
+}
+
+const tasksDelete = async (req = request, res = response) => {
+
+    const { id } = req.params;
+
+    const task = await Task.findByIdAndDelete(id);
+
+    res.json({
+        task,
+    });
+}
+
 module.exports = {
     tasksGet,
     tasksPost,
+    tasksDelete,
+    tasksPut,
 }
