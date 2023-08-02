@@ -16,4 +16,9 @@ const TaskSchema = Schema({
     }
 });
 
+TaskSchema.methods.toJSON = function() {
+    const { __v, ...task } = this.toObject();
+    return task;
+}
+
 module.exports = model('Task', TaskSchema);

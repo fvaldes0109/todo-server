@@ -2,10 +2,17 @@ const { request, response } = require("express")
 
 const Task = require('../models/task');
 
-const tasksGet = (req = request, res = response) => {
+const tasksGet = async (req = request, res = response) => {
+
+    // Get all tasks
+    const [total, tasks] = await Promise.all([
+        Task.countDocuments(),
+        Task.find(),
+    ]);
 
     res.json({
-        msg: 'get API - controller'
+        total,
+        tasks,
     });
 }
 
