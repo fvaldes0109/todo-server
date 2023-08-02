@@ -7,14 +7,13 @@ class Server {
         this.app = express();
         this.port = process.env.PORT;
 
+        this.tasksPath = '/api/tasks'
+
         this.routes();
     }
     
     routes() {
-
-        this.app.get('/', (req, res) => {
-            res.send('Hello World!');
-        });
+        this.app.use(this.tasksPath, require('../routes/tasks'));
     }
 
     listen() {
