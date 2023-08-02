@@ -95,4 +95,16 @@ const sendEdit = async () => {
     loadTable();
 }
 
+const showError = (status, errors) => {
+
+    document.querySelector('.error-window').style.visibility = 'visible';
+    const errorsMessage = document.querySelector('.error-message');
+    errorsMessage.innerHTML = '';
+
+    errors.forEach(item => {
+        
+        errorsMessage.innerHTML += `<b>Status ${status}: ${item.msg}</b><br>`
+    });
+}
+
 document.addEventListener('DOMContentLoaded', init);

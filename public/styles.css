@@ -11,3 +11,20 @@
     align-items: center;
     visibility: hidden;
 }
+
+.error-window {
+    background-color: rgb(216, 212, 212);
+    position: absolute;
+    right: 30px;
+    bottom: 30px;
+    width: 500px;
+    padding: 20px;
+    visibility: hidden;
+}
+
+form {
+    margin-bottom: 30px;
+    border: 1px solid black;
+    display: inline-block;
+    padding: 0 10px 10px;
+}

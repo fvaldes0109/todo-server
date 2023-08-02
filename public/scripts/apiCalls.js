@@ -1,6 +1,12 @@
+const serverURL = 'http://localhost:3000';
+
 const getTasks = async () => {
-    return fetch('http://localhost:3000/api/tasks')
-        .then(response => response.json())
+    return fetch(`${serverURL}/api/tasks`)
+        .then(async (response) => {
+            const data = await response.json()
+            if (response.status !== 200) showError(response.status, data.errors);
+            return data;
+        })
 }
 
 const postTask = async (task) => {
@@ -13,8 +19,12 @@ const postTask = async (task) => {
         body: JSON.stringify(task)
     }
 
-    return fetch('http://localhost:3000/api/tasks', options)
-        .then(response => response.json())
+    return fetch(`${serverURL}/api/tasks`, options)
+        .then(async (response) => {
+            const data = await response.json()
+            if (response.status !== 200) showError(response.status, data.errors);
+            return data;
+        })
 }
 
 const deleteTask = async (id) => {
@@ -23,8 +33,12 @@ const deleteTask = async (id) => {
         method: 'DELETE'
     }
 
-    return fetch(`http://localhost:3000/api/tasks/${id}`, options)
-        .then(response => response.json())
+    return fetch(`${serverURL}/api/tasks/${id}`, options)
+        .then(async (response) => {
+            const data = await response.json()
+            if (response.status !== 200) showError(response.status, data.errors);
+            return data;
+        })
 }
 
 const putTask = async (task) => {
@@ -37,6 +51,10 @@ const putTask = async (task) => {
         body: JSON.stringify(task)
     }
 
-    return fetch(`http://localhost:3000/api/tasks/${task.id}`, options)
-        .then(response => response.json())
+    return fetch(`${serverURL}/api/tasks/${task.id}`, options)
+        .then(async (response) => {
+            const data = await response.json()
+            if (response.status !== 200) showError(response.status, data.errors);
+            return data;
+        })
 }
