@@ -20,6 +20,11 @@ const TaskSchema = Schema({
         type: String,
         enum: enums.priority,
         default: 'Medium',
+    },
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true,
     }
 });
 

@@ -10,7 +10,7 @@ const tasksGet = async (req = request, res = response) => {
 
     const [total, tasks] = await Promise.all([
         Task.countDocuments(),
-        Task.find(),
+        Task.find({ user: req.uid }),
     ]);
     tasks.sort((task1, task2) => priorityCompare(task1.priority, task2.priority) * (order === 'desc' ? -1 : 1));
 
@@ -24,6 +24,7 @@ const tasksPost = async (req = request, res = response) => {
 
     const { _id, __v, ...body } = req.body;
     const task = new Task(body);
+    task.user = req.uid;
 
     await task.save();
 
@@ -35,7 +36,7 @@ const tasksPost = async (req = request, res = response) => {
 const tasksPut = async (req = request, res = response) => {
 
     const { id } = req.params;
-    const { __v, _id, ...body } = req.body;
+    const { __v, _id, user, ...body } = req.body;
 
     const task = await Task.findByIdAndUpdate(id, body, { new: true });
 

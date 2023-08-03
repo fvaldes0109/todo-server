@@ -7,7 +7,10 @@ const { validateJWT } = require('../helpers/validate-fields');
 
 const router = Router();
 
-router.get('/', tasksGet);
+router.get('/', [
+    validateJWT,
+    validateFields,
+], tasksGet);
 
 router.post('/', [
     validateJWT,
@@ -18,6 +21,7 @@ router.post('/', [
 ], tasksPost);
 
 router.put('/:id', [
+    validateJWT,
     check('id', 'ID is not valid').isMongoId(),
     check('title').custom(validTitleUpdate),
     check('status').custom(validStatus),
@@ -26,6 +30,7 @@ router.put('/:id', [
 ], tasksPut);
 
 router.delete('/:id', [
+    validateJWT,
     check('id', 'ID is not valid').isMongoId(),
     validateFields,
 ], tasksDelete);
