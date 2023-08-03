@@ -77,7 +77,7 @@ const loadTable = async () => {
         deleteButtonContainer.appendChild(deleteButton);
         deleteButton.innerHTML = 'Delete';
         deleteButton.addEventListener('click', async () => {
-            console.log('delete:', id)
+
             await deleteTask(id)
             loadTable();
         });

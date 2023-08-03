@@ -1,8 +1,9 @@
-const serverURL = 'http://localhost:3000';
+// Get current url
+const serverURL = window.location.href;
 
 const getTasks = async (order) => {
 
-    return fetch(`${serverURL}/api/tasks?order=${order}`)
+    return fetch(`${serverURL}api/tasks?order=${order}`)
         .then(async (response) => {
             const data = await response.json()
             if (response.status !== 200) showError(response.status, data.errors);
@@ -20,7 +21,7 @@ const postTask = async (task) => {
         body: JSON.stringify(task)
     }
 
-    return fetch(`${serverURL}/api/tasks`, options)
+    return fetch(`${serverURL}api/tasks`, options)
         .then(async (response) => {
             const data = await response.json()
             if (response.status !== 200) showError(response.status, data.errors);
@@ -34,7 +35,7 @@ const deleteTask = async (id) => {
         method: 'DELETE'
     }
 
-    return fetch(`${serverURL}/api/tasks/${id}`, options)
+    return fetch(`${serverURL}api/tasks/${id}`, options)
         .then(async (response) => {
             const data = await response.json()
             if (response.status !== 200) showError(response.status, data.errors);
@@ -52,7 +53,7 @@ const putTask = async (task) => {
         body: JSON.stringify(task)
     }
 
-    return fetch(`${serverURL}/api/tasks/${task.id}`, options)
+    return fetch(`${serverURL}api/tasks/${task.id}`, options)
         .then(async (response) => {
             const data = await response.json()
             if (response.status !== 200) showError(response.status, data.errors);
