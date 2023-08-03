@@ -4,6 +4,7 @@ const bcryptjs = require('bcryptjs');
 const User = require('../models/user');
 const { generateJWT } = require('../helpers/webtoken')
 
+// Given the user id inside a token, return its user data
 const usersGet = async (req = request, res = response) => {
 
     const user = await User.findOne({ _id: req.uid });
@@ -19,6 +20,7 @@ const usersGet = async (req = request, res = response) => {
     });
 }
 
+// Create a new user
 const usersPost = async (req = request, res = response) => {
 
     const { _id, __v, password, ...body } = req.body;

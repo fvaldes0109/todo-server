@@ -9,7 +9,7 @@ const getTasks = async (order) => {
         },
     }
 
-    return fetch(`${domainURL}api/tasks?order=${order}`, options)
+    return fetch(`${domainURL}api/tasks${order == '' ? '' : '?order=' + order}`, options)
         .then(async (response) => {
             const data = await response.json()
             if (response.status !== 200) showError(response.status, data);

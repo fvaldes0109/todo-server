@@ -13,6 +13,7 @@ const UserSchema = Schema({
     }
 });
 
+// Removing MongoDB data and encrypted password from the response
 UserSchema.methods.toJSON = function() {
     const { __v, _id, password, ...user } = this.toObject();
     user.id = _id;

@@ -5,6 +5,7 @@ const jwt = require('jsonwebtoken');
 const { enums } = require('../database/enums');
 const User = require('../models/user');
 
+// Returns the errors from the middlewares in routes
 const validateFields = (req, res, next) => {
 
     const errors = validationResult(req);
@@ -15,6 +16,7 @@ const validateFields = (req, res, next) => {
     next();
 }
 
+// Validate JWT
 const validateJWT = (req = request, res = response, next) => {
 
     const token = req.header('todo-token');
@@ -28,7 +30,7 @@ const validateJWT = (req = request, res = response, next) => {
     try {
         
         const { uid } = jwt.verify(token, process.env.SECRETORPRIVATEKEY);
-        req.uid = uid;
+        req.uid = uid; // Extract user id from token
 
         next();
 
@@ -39,6 +41,7 @@ const validateJWT = (req = request, res = response, next) => {
     }
 }
 
+// If status is given, checks if it is on the list
 const validStatus = (status) => {
     const validStatuses = enums.status;
     if( status !== undefined && !validStatuses.includes(status) ){
@@ -47,6 +50,7 @@ const validStatus = (status) => {
     return true;
 }
 
+// If priority is given, checks if it is on the list
 const validPriority = (priority) => {
 
     const validPriorities = enums.priority;
@@ -56,6 +60,7 @@ const validPriority = (priority) => {
     return true;
 }
 
+// The title cannot be an empty string
 const validTitleUpdate = (title) => {
 
     if(title == ''){
@@ -64,6 +69,7 @@ const validTitleUpdate = (title) => {
     return true;
 }
 
+// Checks if the email is already in use
 const isUniqueEmail = async (email) => {
 
     const exists = await User.findOne({ email });

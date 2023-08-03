@@ -1,9 +1,9 @@
 const enums = {
-    status: ['PENDING', 'COMPLETED'],
-    priority: ['Low', 'Medium', 'High'],
+    status: ['PENDING', 'COMPLETED'], // Valid status values
+    priority: ['Low', 'Medium', 'High'], // Valid priority values
 }
 
-
+// Comparer to sort tasks by priority
 const priorityCompare = (p1, p2) => {
 
     const i1 = enums.priority.indexOf(p1);

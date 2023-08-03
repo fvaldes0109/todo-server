@@ -28,6 +28,7 @@ const TaskSchema = Schema({
     }
 });
 
+// Removing MongoDB data from the response
 TaskSchema.methods.toJSON = function() {
     const { __v, _id, ...task } = this.toObject();
     task.id = _id;

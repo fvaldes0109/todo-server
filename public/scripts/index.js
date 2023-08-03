@@ -1,6 +1,6 @@
 let currEditId;
 const priorities = ['Low', 'Medium', 'High'];
-let currOrder = 'desc';
+let currOrder = '';
 
 const init = async () => {
     
