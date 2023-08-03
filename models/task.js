@@ -1,5 +1,7 @@
 const { Schema, model } = require('mongoose');
 
+const { enums } = require('../database/enums');
+
 const TaskSchema = Schema({
 
     title: {
@@ -11,8 +13,13 @@ const TaskSchema = Schema({
     },
     status: {
         type: String,
-        enum: ['PENDING', 'COMPLETED'],
+        enum: enums.status,
         default: 'PENDING',
+    },
+    priority: {
+        type: String,
+        enum: enums.priority,
+        default: 'Medium',
     }
 });
 

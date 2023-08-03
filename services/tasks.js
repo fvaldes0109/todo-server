@@ -1,14 +1,18 @@
 const { request, response } = require("express")
 
 const Task = require('../models/task');
+const { priorityCompare } = require("../database/enums");
 
 const tasksGet = async (req = request, res = response) => {
 
-    // Get all tasks
+    let { order } = req.query;
+    order = (order === 'asc' ? order : 'desc');
+
     const [total, tasks] = await Promise.all([
         Task.countDocuments(),
         Task.find(),
     ]);
+    tasks.sort((task1, task2) => priorityCompare(task1.priority, task2.priority) * (order === 'desc' ? -1 : 1));
 
     res.json({
         total,

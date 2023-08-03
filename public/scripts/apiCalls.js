@@ -1,7 +1,8 @@
 const serverURL = 'http://localhost:3000';
 
-const getTasks = async () => {
-    return fetch(`${serverURL}/api/tasks`)
+const getTasks = async (order) => {
+
+    return fetch(`${serverURL}/api/tasks?order=${order}`)
         .then(async (response) => {
             const data = await response.json()
             if (response.status !== 200) showError(response.status, data.errors);

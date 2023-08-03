@@ -12,6 +12,10 @@
     visibility: hidden;
 }
 
+.edit-window > * {
+    margin: 10px 0;
+}
+
 .error-window {
     background-color: rgb(216, 212, 212);
     position: absolute;

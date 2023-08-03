@@ -1,4 +1,6 @@
 let currEditId;
+const priorities = ['Low', 'Medium', 'High'];
+let currOrder = 'desc';
 
 const init = async () => {
     
@@ -14,7 +16,8 @@ const init = async () => {
         const title = formData.get('title');
         const description = formData.get('description');
         const status = formData.get('status') ? 'COMPLETED' : 'PENDING';
-        const task = { title, description, status };
+        const priority = formData.get('priority');
+        const task = { title, description, status, priority };
 
         await postTask(task);
         loadTable();
@@ -26,47 +29,51 @@ const loadTable = async () => {
     const tableBody = document.querySelector('tbody');
     tableBody.innerHTML = '';
     
-    const data = await getTasks();
+    const data = await getTasks(currOrder);
 
     data.tasks.forEach((item) => {
 
-        const { id, status, title, description } = item;
+        const { id, status, title, description, priority } = item;
 
         const row = document.createElement('tr');
         const statusCell = document.createElement('td');
         const titleCell = document.createElement('td');
         const descriptionCell = document.createElement('td');
+        const priorityCell = document.createElement('td');
         const editButtonContainer = document.createElement('td');
         const deleteButtonContainer = document.createElement('td');
-        const editButton = document.createElement('button');
-        const deleteButton = document.createElement('button');
-
+        
         const checkbox = document.createElement('input');
         statusCell.appendChild(checkbox);
         checkbox.type = 'checkbox';
         checkbox.checked = status === 'COMPLETED';
         checkbox.addEventListener('change', async () => {
-        
+            
             const status = checkbox.checked ? 'COMPLETED' : 'PENDING';
             const task = { id, status };
             await putTask(task);
             loadTable();
         });
-
+        
         titleCell.innerText = title;
         descriptionCell.innerText = description === undefined ? '' : description;
+        priorityCell.innerText = priority;
         
+        const editButton = document.createElement('button');
         editButtonContainer.appendChild(editButton);
         editButton.innerHTML = 'Edit';
         editButton.addEventListener('click', async () => {
-
+            
             currEditId = id;
             document.querySelector('.edit-window').style.visibility = 'visible';
             document.querySelector('.edit-window input').value = title;
             document.querySelector('.edit-window textarea').value = description;
+            document.querySelector('.edit-window select').value = priority;
+
             loadTable();
         });
-
+        
+        const deleteButton = document.createElement('button');
         deleteButtonContainer.appendChild(deleteButton);
         deleteButton.innerHTML = 'Delete';
         deleteButton.addEventListener('click', async () => {
@@ -78,6 +85,7 @@ const loadTable = async () => {
         row.appendChild(statusCell);
         row.appendChild(titleCell);
         row.appendChild(descriptionCell);
+        row.appendChild(priorityCell);
         row.appendChild(editButtonContainer);
         row.appendChild(deleteButtonContainer);
 
@@ -89,7 +97,8 @@ const sendEdit = async () => {
 
     const title = document.querySelector('.edit-window input').value;
     const description = document.querySelector('.edit-window textarea').value;
-    const task = { id: currEditId, title, description };
+    const priority = document.querySelector('.edit-window select').value;
+    const task = { id: currEditId, title, description, priority };
     await putTask(task);
     document.querySelector('.edit-window').style.visibility = 'hidden';
     loadTable();
@@ -105,6 +114,14 @@ const showError = (status, errors) => {
         
         errorsMessage.innerHTML += `<b>Status ${status}: ${item.msg}</b><br>`
     });
+}
+
+const swapOrder = async () => {
+
+    currOrder = (currOrder === 'desc' ? 'asc' : 'desc');
+
+    await getTasks(currOrder);
+    loadTable();
 }
 
 document.addEventListener('DOMContentLoaded', init);

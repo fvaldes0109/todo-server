@@ -18,7 +18,13 @@
         <input type="text" name="title" id="title" placeholder="Title">
         <label for="description">Description</label>
         <textarea name="description" id="description" placeholder="Description"></textarea>
-        <label for="status">Completed: </label>
+        <label for="status">Completed</label>
+        <label for="priority">Priority</label>
+        <select name="priority" id="priority">
+            <option value="Low">Low</option>
+            <option value="Medium" selected>Medium</option>
+            <option value="High">High</option>
+        </select>
         <input type="checkbox" name="status" id="status">
         <button type="submit" id="submit">Add Task</button>
     </form>
@@ -28,6 +34,7 @@
             <th>Status</th>
             <th>Title</th>
             <th>Description</th>
+            <th><a href="#" onclick="swapOrder()">Priority</a></th>
             <th>Edit</th>
             <th>Delete</th>
         </thead>
@@ -40,6 +47,11 @@
         <input type="text" name="title" id="title" placeholder="Title">
         <label for="description">Description</label>
         <textarea name="description" id="description" placeholder="Description"></textarea>
+        <select name="priority" id="priority">
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+        </select>
         <div>
             <button onclick="sendEdit()">Accept</button>
             <button onclick="document.querySelector('.edit-window').style.visibility = 'hidden'">Cancel</button>
