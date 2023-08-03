@@ -1,16 +1,15 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 
-const { usersPost } = require('../services/users');
-const { validateFields, isUniqueEmail } = require('../helpers/validate-fields');
+const { login } = require('../services/auth');
+const { validateFields } = require('../helpers/validate-fields');
 
 const router = Router();
 
-router.post('/', [
+router.post('/login', [
     check('email', 'Email is not valid').isEmail(),
-    check('email').custom(isUniqueEmail),
     check('password', 'You must provide a password').not().isEmpty(),
     validateFields
-], usersPost);
+], login);
 
 module.exports = router;

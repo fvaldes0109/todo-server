@@ -12,6 +12,7 @@ class Server {
 
         this.tasksPath = '/api/tasks';
         this.usersPath = '/api/users';
+        this.authPath = '/api/auth';
 
         this.dbStart();
         
@@ -32,6 +33,7 @@ class Server {
     }   
 
     routes() {
+        this.app.use(this.authPath, require('../routes/auth'));
         this.app.use(this.tasksPath, require('../routes/tasks'));
         this.app.use(this.usersPath, require('../routes/users'));
     }

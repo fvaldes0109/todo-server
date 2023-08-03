@@ -1,4 +1,6 @@
+const { request, response } = require('express');
 const { validationResult } = require('express-validator');
+const jwt = require('jsonwebtoken');
 
 const { enums } = require('../database/enums');
 const User = require('../models/user');
@@ -11,6 +13,30 @@ const validateFields = (req, res, next) => {
     }
 
     next();
+}
+
+const validateJWT = (req = request, res = response, next) => {
+
+    const token = req.header('todo-token');
+
+    if (!token) {
+        res.status(401).json({
+            msg: 'Missing auth token'
+        });
+    }
+
+    try {
+        
+        const { uid } = jwt.verify(token, process.env.SECRETORPRIVATEKEY);
+        req.uid = uid;
+
+        next();
+
+    } catch (error) {
+        res.status(401).json({
+            msg: 'Invalid auth token'
+        })
+    }
 }
 
 const validStatus = (status) => {
@@ -52,4 +78,5 @@ module.exports = {
     validTitleUpdate,
     validPriority,
     isUniqueEmail,
+    validateJWT
 }

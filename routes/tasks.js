@@ -2,13 +2,15 @@ const { Router } = require('express');
 const { check } = require('express-validator');
 
 const { tasksGet, tasksPost, tasksDelete, tasksPut } = require('../services/tasks');
-const { validateFields, validStatus, validTitleUpdate, validPriority } = require('./validate-fields');
+const { validateFields, validStatus, validTitleUpdate, validPriority } = require('../helpers/validate-fields');
+const { validateJWT } = require('../helpers/validate-fields');
 
 const router = Router();
 
 router.get('/', tasksGet);
 
 router.post('/', [
+    validateJWT,
     check('title', 'The title is required').not().isEmpty(),
     check('status').custom(validStatus),
     check('priority').custom(validPriority),
