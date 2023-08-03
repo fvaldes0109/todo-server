@@ -2,7 +2,8 @@ const { Router } = require('express');
 const { check } = require('express-validator');
 
 const { usersPost, usersGet } = require('../services/users');
-const { validateFields, isUniqueEmail, validateJWT } = require('../helpers/validate-fields');
+const { isUniqueEmail } = require('../helpers/validate-fields');
+const { validateFields, validateJWT } = require('../middlewares/middlewares');
 
 const router = Router();
 

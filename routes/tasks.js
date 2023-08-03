@@ -2,8 +2,8 @@ const { Router } = require('express');
 const { check } = require('express-validator');
 
 const { tasksGet, tasksPost, tasksDelete, tasksPut } = require('../services/tasks');
-const { validateFields, validStatus, validTitleUpdate, validPriority } = require('../helpers/validate-fields');
-const { validateJWT } = require('../helpers/validate-fields');
+const { validStatus, validTitleUpdate, validPriority } = require('../helpers/validate-fields');
+const { validateJWT, taskBelongsToUser, validateFields } = require('../middlewares/middlewares');
 
 const router = Router();
 
@@ -23,6 +23,7 @@ router.post('/', [
 router.put('/:id', [
     validateJWT,
     check('id', 'ID is not valid').isMongoId(),
+    taskBelongsToUser,
     check('title').custom(validTitleUpdate),
     check('status').custom(validStatus),
     check('priority').custom(validPriority),
@@ -32,6 +33,7 @@ router.put('/:id', [
 router.delete('/:id', [
     validateJWT,
     check('id', 'ID is not valid').isMongoId(),
+    taskBelongsToUser,
     validateFields,
 ], tasksDelete);
 
