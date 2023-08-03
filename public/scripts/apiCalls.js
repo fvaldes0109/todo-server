@@ -1,6 +1,10 @@
 const domainURL = window.location.href.split('/')[0];
 
-const getTasks = async (order) => {
+const getTasks = async (order, status) => {
+
+    const query = {};
+    if (order) query.order = order;
+    if (status) query.status = status;
 
     const options = {
         method: 'GET',
@@ -9,7 +13,7 @@ const getTasks = async (order) => {
         },
     }
 
-    return fetch(`${domainURL}api/tasks${order == '' ? '' : '?order=' + order}`, options)
+    return fetch(`${domainURL}api/tasks?${new URLSearchParams(query)}`, options)
         .then(async (response) => {
             const data = await response.json()
             if (response.status !== 200) showError(response.status, data);

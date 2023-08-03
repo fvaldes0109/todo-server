@@ -1,6 +1,7 @@
 let currEditId;
 const priorities = ['Low', 'Medium', 'High'];
 let currOrder = '';
+let currStatus = '';
 
 const init = async () => {
     
@@ -33,7 +34,7 @@ const loadTable = async () => {
     const tableBody = document.querySelector('tbody');
     tableBody.innerHTML = '';
     
-    const data = await getTasks(currOrder);
+    const data = await getTasks(currOrder, currStatus);
     if (!data.tasks) data.tasks = [];
 
     data.tasks.forEach((item) => {
@@ -113,7 +114,15 @@ const swapOrder = async () => {
 
     currOrder = (currOrder === 'desc' ? 'asc' : 'desc');
 
-    await getTasks(currOrder);
+    loadTable();
+}
+
+const swapStatus = async () => {
+
+    if (currStatus === '') currStatus = 'COMPLETED';
+    else if (currStatus === 'COMPLETED') currStatus = 'PENDING';
+    else currStatus = '';
+
     loadTable();
 }
 

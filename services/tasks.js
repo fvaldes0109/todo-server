@@ -6,12 +6,13 @@ const { priorityCompare } = require("../database/enums");
 // Obtains all the tasks for a user. May be sorted by priority
 const tasksGet = async (req = request, res = response) => {
 
-    let { order } = req.query;
+    let { order, status } = req.query;
+    if (status) status = status.toUpperCase();
 
     // Get user's tasks and its task count
     const [total, tasks] = await Promise.all([
         Task.countDocuments({ user: req.uid }),
-        Task.find({ user: req.uid }),
+        status ? Task.find({ user: req.uid, status }) : Task.find({ user: req.uid }),
     ]);
 
     // Sort if requested
