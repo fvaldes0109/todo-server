@@ -4,6 +4,21 @@ const bcryptjs = require('bcryptjs');
 const User = require('../models/user');
 const { generateJWT } = require('../helpers/webtoken')
 
+const usersGet = async (req = request, res = response) => {
+
+    const user = await User.findOne({ _id: req.uid });
+
+    if (!user) {
+        return res.status(400).json({
+            msg: 'User not found'
+        });
+    }
+
+    res.json({
+        user
+    });
+}
+
 const usersPost = async (req = request, res = response) => {
 
     const { _id, __v, password, ...body } = req.body;
@@ -22,5 +37,6 @@ const usersPost = async (req = request, res = response) => {
 }
 
 module.exports = {
+    usersGet,
     usersPost,
 }

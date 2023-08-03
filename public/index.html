@@ -3,58 +3,21 @@
 <head>
     <meta charset='utf-8'>
     <meta http-equiv='X-UA-Compatible' content='IE=edge'>
-    <title>TODO App</title>
+    <title>TODO App - Login</title>
     <meta name='viewport' content='width=device-width, initial-scale=1'>
     <link rel='stylesheet' type='text/css' media='screen' href='styles.css'>
-    <script src='scripts/index.js'></script>
-    <script src="scripts/apiCalls.js"></script>
+    <script src='scripts/auth.js'></script>
+    <script src='scripts/apiCalls.js'></script>
 </head>
 <body>
-    <h1>TODO App</h1>
-
-    <form>
-        <h2>New Task</h2>
-        <label for="title">Title</label>
-        <input type="text" name="title" id="title" placeholder="Title">
-        <label for="description">Description</label>
-        <textarea name="description" id="description" placeholder="Description"></textarea>
-        <label for="status">Completed</label>
-        <label for="priority">Priority</label>
-        <select name="priority" id="priority">
-            <option value="Low">Low</option>
-            <option value="Medium" selected>Medium</option>
-            <option value="High">High</option>
-        </select>
-        <input type="checkbox" name="status" id="status">
-        <button type="submit" id="submit">Add Task</button>
-    </form>
-
-    <table border="true">
-        <thead>
-            <th>Status</th>
-            <th>Title</th>
-            <th>Description</th>
-            <th class="priority-title" onclick="swapOrder()">Priority</th>
-            <th>Edit</th>
-            <th>Delete</th>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
-
-    <div class="edit-window">
-        <label for="title">Title</label>
-        <input type="text" name="title" id="title" placeholder="Title">
-        <label for="description">Description</label>
-        <textarea name="description" id="description" placeholder="Description"></textarea>
-        <select name="priority" id="priority">
-            <option value="Low">Low</option>
-            <option value="Medium">Medium</option>
-            <option value="High">High</option>
-        </select>
+    <div class="login-form">
+        <label for="email">Username</label>
+        <input type="email" name="email" id="email" placeholder="email">
+        <label for="password">Password</label>
+        <input type="password" name="password" id="password" placeholder="Password">
         <div>
-            <button onclick="sendEdit()">Accept</button>
-            <button onclick="document.querySelector('.edit-window').style.visibility = 'hidden'">Cancel</button>
+            <button onclick="login(true)">Create</button>
+            <button onclick="login(false)">Login</button>
         </div>
     </div>
 

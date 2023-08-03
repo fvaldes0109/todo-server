@@ -4,6 +4,10 @@ let currOrder = 'desc';
 
 const init = async () => {
     
+    const data = await getUser();
+    const userField = document.querySelector('p.email');
+    userField.innerHTML = data.user.email;
+
     loadTable();
 
     const form = document.querySelector('form');
@@ -30,6 +34,7 @@ const loadTable = async () => {
     tableBody.innerHTML = '';
     
     const data = await getTasks(currOrder);
+    if (!data.tasks) data.tasks = [];
 
     data.tasks.forEach((item) => {
 
@@ -102,18 +107,6 @@ const sendEdit = async () => {
     await putTask(task);
     document.querySelector('.edit-window').style.visibility = 'hidden';
     loadTable();
-}
-
-const showError = (status, errors) => {
-
-    document.querySelector('.error-window').style.visibility = 'visible';
-    const errorsMessage = document.querySelector('.error-message');
-    errorsMessage.innerHTML = '';
-
-    errors.forEach(item => {
-        
-        errorsMessage.innerHTML += `<b>Status ${status}: ${item.msg}</b><br>`
-    });
 }
 
 const swapOrder = async () => {
