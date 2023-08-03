@@ -10,7 +10,8 @@ class Server {
         this.app = express();
         this.port = process.env.PORT;
 
-        this.tasksPath = '/api/tasks'
+        this.tasksPath = '/api/tasks';
+        this.usersPath = '/api/users';
 
         this.dbStart();
         
@@ -32,6 +33,7 @@ class Server {
 
     routes() {
         this.app.use(this.tasksPath, require('../routes/tasks'));
+        this.app.use(this.usersPath, require('../routes/users'));
     }
 
     listen() {

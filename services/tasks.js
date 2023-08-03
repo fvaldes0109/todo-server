@@ -28,7 +28,6 @@ const tasksPost = async (req = request, res = response) => {
     await task.save();
 
     res.json({
-        msg: 'post API - controller',
         task,
     });
 }

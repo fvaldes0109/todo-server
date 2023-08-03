@@ -1,6 +1,7 @@
 const { validationResult } = require('express-validator');
 
 const { enums } = require('../database/enums');
+const User = require('../models/user');
 
 const validateFields = (req, res, next) => {
 
@@ -21,6 +22,7 @@ const validStatus = (status) => {
 }
 
 const validPriority = (priority) => {
+
     const validPriorities = enums.priority;
     if( priority !== undefined && !validPriorities.includes(priority) ){
         throw new Error(`The priority must be one of the following: ${validPriorities}`);
@@ -29,10 +31,19 @@ const validPriority = (priority) => {
 }
 
 const validTitleUpdate = (title) => {
+
     if(title == ''){
         throw new Error('The title cannot be an empty string');
     }
     return true;
+}
+
+const isUniqueEmail = async (email) => {
+
+    const exists = await User.findOne({ email });
+    if (exists) {
+        throw new Error(`Email ${email} already exists`);
+    }
 }
 
 module.exports = {
@@ -40,4 +51,5 @@ module.exports = {
     validStatus,
     validTitleUpdate,
     validPriority,
+    isUniqueEmail,
 }
