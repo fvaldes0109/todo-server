@@ -29,18 +29,8 @@ const validTitleUpdate = (title) => {
     return true;
 }
 
-// Checks if the email is already in use
-const isUniqueEmail = async (email) => {
-
-    const exists = await User.findOne({ email });
-    if (exists) {
-        throw new Error(`Email ${email} already exists`);
-    }
-}
-
 module.exports = {
     validStatus,
     validTitleUpdate,
     validPriority,
-    isUniqueEmail,
 }

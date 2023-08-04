@@ -28,11 +28,8 @@ describe("TODO API", function(){
                 }
                 else {
                     expect(res).to.have.status(400);
-                    expect(res.body).to.have.property('errors');
-                    expect(res.body.errors).to.be.an('array');
-                    expect(res.body.errors).to.have.lengthOf(1);
-                    expect(res.body.errors[0]).to.have.property('msg');
-                    expect(res.body.errors[0].msg).equal(`Email ${email} already exists`);
+                    expect(res.body).to.have.property('msg');
+                    expect(res.body.msg).equal(`Email ${email} already exists`);
                 }
                 done();
             });
@@ -115,8 +112,8 @@ describe("TODO API", function(){
 
     let toChangeID;
 
-    it('Create new tasks', function(done) {
-        tasks.forEach(task => {
+    tasks.forEach((task, index) => {
+    it(`Create new tasks - ${index + 1}`, function(done) {
             chai.request(baseUrl)
                 .post('/api/tasks')
                 .set('todo-token', jwt)
@@ -136,9 +133,9 @@ describe("TODO API", function(){
                     expect(res.body.task.priority).equal(task.priority);
                     expect(res.body.task.user).equal(userid);
                     if (task.title == 'Task 1') toChangeID = res.body.task.id;
+                    done();
                 });
         });
-        done();
     });
     
     it('Get Tasks', function(done) {
@@ -150,6 +147,7 @@ describe("TODO API", function(){
                 expect(res.body).to.have.property('total');
                 expect(res.body).to.have.property('tasks');
                 expect(res.body.tasks).to.be.an('array');
+                expect(res.body.tasks).to.have.lengthOf(4);
                 res.body.tasks.forEach(task => {
                     expect(task).to.have.property('id');
                     expect(task).to.have.property('title');

@@ -44,42 +44,81 @@ const validateJWT = (req = request, res = response, next) => {
 // Check if the task belongs to the user trying to modify it
 const taskBelongsToUser = async (req = request, res = response, next) => {
 
-    const { id } = req.params;
-    const task = await Task.findById(id);
-
-    if(!task){
-        return res.status(404).json({
-            msg: 'Task not found'
-        });
-    }
+    try {        
+        const { id } = req.params;
+        const task = await Task.findById(id);
     
-    if(task.user.toString() !== req.uid){
-        return res.status(401).json({
-            msg: 'Not authorized to access this task'
+        if(!task){
+            return res.status(404).json({
+                msg: 'Task not found'
+            });
+        }
+        
+        if(task.user.toString() !== req.uid){
+            return res.status(401).json({
+                msg: 'Not authorized to access this task'
+            });
+        }
+    
+        next();
+
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            msg: 'Server error'
         });
     }
-
-    next();
 }
 
 // Check if the user exists in the database
 const userExists = async (req = request, res = response, next) => {
 
-    const { uid } = req;
-    const user = await User.findById(uid);
+    try {
+        const { uid } = req;
+        const user = await User.findById(uid);
+    
+        if(!user){
+            return res.status(404).json({
+                msg: 'User not found'
+            });
+        }
+    
+        next();
+        
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
+            msg: 'Server error'
+        });
+    }
+}
 
-    if(!user){
-        return res.status(404).json({
-            msg: 'User not found'
+// Checks if the email is already in use
+const isUniqueEmail = async (req = request, res = response, next) => {
+
+    const { email } = req.body;
+    try {
+        const exists = await User.findOne({ email });
+
+        if (exists) {
+            return res.status(400).json({
+                msg: `Email ${email} already exists`
+            });
+        }
+        
+    } catch (error) {
+        return res.status(500).json({
+            msg: 'Server error'
         });
     }
 
-    next();
+    next();       
 }
 
 module.exports = {
     validateFields,
     taskBelongsToUser,
     userExists,
+    isUniqueEmail,
     validateJWT
 }
