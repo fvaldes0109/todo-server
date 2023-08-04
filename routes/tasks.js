@@ -1,7 +1,7 @@
 const { Router } = require('express');
 const { check } = require('express-validator');
 
-const { tasksGet, tasksPost, tasksDelete, tasksPut } = require('../services/tasks');
+const { tasksGet, tasksPost, tasksDelete, tasksPut, tasksDeleteAll } = require('../services/tasks');
 const { validStatus, validTitleUpdate, validPriority } = require('../helpers/validate-fields');
 const { validateJWT, taskBelongsToUser, validateFields } = require('../middlewares/middlewares');
 
@@ -29,6 +29,11 @@ router.put('/:id', [
     check('priority').custom(validPriority),
     validateFields,
 ], tasksPut);
+
+router.delete('/', [
+    validateJWT,
+    validateFields,
+], tasksDeleteAll);
 
 router.delete('/:id', [
     validateJWT,

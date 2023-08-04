@@ -63,9 +63,22 @@ const tasksDelete = async (req = request, res = response) => {
     });
 }
 
+// Delete all the tasks of a user
+const tasksDeleteAll = async (req = request, res = response) => {
+
+    const { uid } = req;
+
+    const result = await Task.deleteMany({ user: uid });
+
+    res.json({
+        result,
+    });
+}
+
 module.exports = {
     tasksGet,
     tasksPost,
     tasksDelete,
     tasksPut,
+    tasksDeleteAll,
 }
