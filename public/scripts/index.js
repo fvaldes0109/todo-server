@@ -110,6 +110,12 @@ const sendEdit = async () => {
     loadTable();
 }
 
+const deleteAll = async () => {
+
+    await deleteAllTasks();
+    loadTable();
+}
+
 const swapOrder = async () => {
 
     currOrder = (currOrder === 'desc' ? 'asc' : 'desc');

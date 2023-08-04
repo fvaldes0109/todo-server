@@ -57,6 +57,23 @@ const deleteTask = async (id) => {
         });
 }
 
+const deleteAllTasks = async () => {
+
+    const options = {
+        method: 'DELETE',
+        headers: {
+            'todo-token': localStorage.getItem('todo-token')
+        },
+    }
+
+    return fetch(`${domainURL}api/tasks`, options)
+        .then(async (response) => {
+            const data = await response.json()
+            if (response.status !== 200) showError(response.status, data);
+            return data;
+        });
+}
+
 const putTask = async (task) => {
 
     const options = {
@@ -76,7 +93,7 @@ const putTask = async (task) => {
         });
 }
 
-const getUser = async (order) => {
+const getUser = async () => {
 
     const options = {
         method: 'GET',

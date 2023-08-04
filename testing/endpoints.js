@@ -5,8 +5,8 @@ const expect = chai.expect
 const baseUrl = "http://localhost:3000";
 const email = 'newemail@email.com';
 const password = '1234567';
-let jwt = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1aWQiOiI2NGNjMmU2NjVjNjNkZWU4MWQ0NWRjMjUiLCJpYXQiOjE2OTExMDI4MjJ9.FOsbimNbt7ntLnZMn28o_ItcQG4eadxIiqhKX5FOLbE';
-let userid = '64cc2e665c63dee81d45dc25';
+let jwt = '';
+let userid = '';
 
 
 chai.use(chaiHttp);
@@ -40,7 +40,7 @@ describe("TODO API", function(){
 
     it('Login', function(done) {
         chai.request(baseUrl)
-            .get('/api/auth/login')
+            .post('/api/auth/login')
             .send({
                 email,
                 password,

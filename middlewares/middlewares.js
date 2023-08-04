@@ -3,6 +3,7 @@ const { validationResult } = require('express-validator');
 const jwt = require('jsonwebtoken');
 
 const Task = require('../models/task');
+const User = require('../models/user');
 
 // Returns the errors from the middlewares in routes
 const validateFields = (req, res, next) => {
@@ -30,7 +31,7 @@ const validateJWT = (req = request, res = response, next) => {
         
         const { uid } = jwt.verify(token, process.env.SECRETORPRIVATEKEY);
         req.uid = uid; // Extract user id from token
-
+        console.log(uid);
         next();
 
     } catch (error) {
@@ -40,6 +41,7 @@ const validateJWT = (req = request, res = response, next) => {
     }
 }
 
+// Check if the task belongs to the user trying to modify it
 const taskBelongsToUser = async (req = request, res = response, next) => {
 
     const { id } = req.params;
@@ -60,8 +62,24 @@ const taskBelongsToUser = async (req = request, res = response, next) => {
     next();
 }
 
+// Check if the user exists in the database
+const userExists = async (req = request, res = response, next) => {
+
+    const { uid } = req;
+    const user = await User.findById(uid);
+
+    if(!user){
+        return res.status(404).json({
+            msg: 'User not found'
+        });
+    }
+
+    next();
+}
+
 module.exports = {
     validateFields,
     taskBelongsToUser,
+    userExists,
     validateJWT
 }
