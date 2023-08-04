@@ -45,6 +45,12 @@ const taskBelongsToUser = async (req = request, res = response, next) => {
     const { id } = req.params;
     const task = await Task.findById(id);
 
+    if(!task){
+        return res.status(404).json({
+            msg: 'Task not found'
+        });
+    }
+    
     if(task.user.toString() !== req.uid){
         return res.status(401).json({
             msg: 'Not authorized to access this task'

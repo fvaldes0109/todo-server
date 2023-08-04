@@ -6,7 +6,7 @@ const { validateFields } = require('../middlewares/middlewares');
 
 const router = Router();
 
-router.post('/login', [
+router.get('/login', [
     check('email', 'Email is not valid').isEmail(),
     check('password', 'You must provide a password').not().isEmpty(),
     validateFields

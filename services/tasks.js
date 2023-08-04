@@ -56,10 +56,10 @@ const tasksDelete = async (req = request, res = response) => {
 
     const { id } = req.params;
 
-    const task = await Task.findByIdAndDelete(id);
+    const result = await Task.deleteOne({ _id: id });
 
     res.json({
-        task,
+        result,
     });
 }
 
