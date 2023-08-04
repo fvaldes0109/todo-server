@@ -31,7 +31,7 @@ const validateJWT = (req = request, res = response, next) => {
         
         const { uid } = jwt.verify(token, process.env.SECRETORPRIVATEKEY);
         req.uid = uid; // Extract user id from token
-        console.log(uid);
+
         next();
 
     } catch (error) {
